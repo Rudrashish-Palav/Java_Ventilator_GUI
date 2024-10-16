@@ -1,0 +1,95 @@
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+public class FrameTable extends JFrame{
+	FrameTable(){
+		this.setTitle("Oxy Drive");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+		this.setSize(500,250);
+		this.setUndecorated(true);
+		
+		
+		DefaultTableModel tableModel = new DefaultTableModel();
+		JTable table = new JTable(tableModel) {
+		@Override
+	    protected void paintComponent(Graphics g) {
+	        super.paintComponent(g);
+	        Graphics2D g2d = (Graphics2D) g;
+	        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+	        Color color1 =new Color(40,177,224,100);
+	        Color color2 = new Color(14,105,255,100);
+	        GradientPaint gp = new GradientPaint(0, 0, color1, 300, 0, color2);
+	        g2d.setPaint(gp);
+	        g2d.fillRect(0, 0, 500, 220);
+	    }
+};
+	      tableModel.addColumn("");
+	      tableModel.addColumn("");
+	      tableModel.insertRow(0, new Object[] { "Temperature", 123  });
+	      tableModel.insertRow(0, new Object[] { "Humidity", 23});
+	      tableModel.insertRow(0, new Object[] { "Pressure", 3243  });
+	      // adding a new row
+	      tableModel.insertRow(0, new Object[] { "Flowrate", 2323  });
+      // appending a new row
+//	      tableModel.addRow(new Object[] { "WordPress", "Easy" });
+	      
+	      // set row height
+	      table.setRowHeight(table.getRowHeight() +38);
+//	      JFrame f = new JFrame();
+	      //this.setSize(500, 220);
+	      DefaultTableCellRenderer rend = new DefaultTableCellRenderer();
+	      rend.setOpaque(false);
+	      table.setDefaultRenderer(Object.class, rend);
+	      
+	      JPanel forButton=new JPanel();
+	      forButton.setBackground(Color.BLACK);
+	      forButton.setLayout(null);
+	      forButton.setBounds(0,222,500,28);
+	      forButton.add(new JScrollPane(table));
+	      this.add(forButton);
+	      JButton Button1 = new JButton("Next");
+	      JButton Button2 = new JButton("Bed Details");
+	     
+	      Button1.setBounds(250,0,250,30);
+	      Button2.setBounds(0,0,250,30);
+	      forButton.add(Button1);
+	  	  forButton.add(Button2);
+	      //Button1.addActionListener(e ->new LoginDemo());
+	      Button1.addActionListener(new ActionListener() {
+	    	  public void actionPerformed(ActionEvent e) {
+	           // Insert code here
+	    		  new LoginDemo();
+	    		  dispose();
+	    	  }
+	      });
+	      Button2.addActionListener(new ActionListener() {
+	    	  public void actionPerformed(ActionEvent e) {
+	           // Insert code here
+	    		  new BedDetails();
+	    		  dispose();
+	    	  }
+	      });
+	  	 
+	  	
+	      this.add(new JScrollPane(table));
+	      this.setUndecorated(true);
+	      this.setVisible(true);
+	      for(int i=0;i<2;i++)
+	      {
+	    	  table.getColumnModel().getColumn(i).setCellRenderer(new CellRenderer());
+	      }
+	}
+	
+}
